@@ -5,6 +5,7 @@ const pages = [
   ["Developer Introduction","pages/developer-intro.html","developer architecture matching scoring setup"],
   ["Architecture","pages/architecture.html","architecture intent object context scoring unresolved"],
   ["Conversation Flow","pages/conversation-flow.html","conversation clarification ambiguity first miss second miss unresolved"],
+  ["Sample Conversations","pages/sample-conversations.html","examples screenshots known ambiguous unresolved clarification"],
   ["Getting Started","pages/getting-started.html","github clone download install run agents playground local"],
   ["Agents Playground","pages/agents-playground.html","microsoft 365 agents playground no company teams access local testing"],
   ["Security","pages/security.html","security input validation secrets logging local production"],
