@@ -1,5 +1,12 @@
 import { App } from '@microsoft/teams.apps';
-import { getSupportTopics, findSupportTopic } from './supportMatcher';
+import {
+  getSupportTopics,
+  findSupportTopic,
+  matchIntent,
+  matchObject,
+  matchContext,
+  matchState,
+} from './matching/supportMatcher';
 
 // Uncomment the following line to use the default App instance in MS Teams. This is useful for testing the bot in a Microsoft 365 developer tenant.
 // const app = new App();
@@ -25,7 +32,13 @@ app.on('message', async ({ send, activity }) => {
 
   const userText = activity.text ?? '';
   const topic = findSupportTopic(userText);
-
+  const intent = matchIntent(userText);
+  
+  console.log(`Detected intent: ${intent ?? 'none'}`);
+  console.log(`Intent: ${matchIntent(userText) ?? 'NONE'}`);
+  console.log(`Object: ${matchObject(userText) ?? 'NONE'}`);
+  console.log(`Context: ${matchContext(userText) ?? 'NONE'}`);
+  console.log(`State: ${matchState(userText) ?? 'NONE'}`);
   if (topic) {
     await send(`**${topic.title}**\n\n${topic.solution.join('\n')}`);
     return;

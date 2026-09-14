@@ -1,0 +1,22 @@
+{
+  "FORWARD": {
+    "description": "User wants to forward something to another recipient.",
+    "terms": ["forward", "forwarding", "forwarded"]
+  },
+  "CREATE": {
+    "description": "User wants to create something new.",
+    "terms": ["create", "creating", "created"]
+  },
+  "ADD": {
+    "description": "User wants to add something.",
+    "terms": ["add", "adding", "added"]
+  },
+  "DOWNLOAD": {
+    "description": "User wants to download something.",
+    "terms": ["download", "downloading", "downloaded"]
+  },
+  "ATTACH": {
+    "description": "User wants to attach something.",
+    "terms": ["attach", "attaching", "attached"]
+  }
+}

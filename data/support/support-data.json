@@ -4,6 +4,12 @@
     "category": "Email",
     "subcategory": "Outlook",
     "title": "Forwarding a Document from an Email",
+    "semantics": {
+      "intents": ["FORWARD"],
+      "objects": ["DOCUMENT", "ATTACHMENT"],
+      "contexts": ["OUTLOOK", "EMAIL"],
+      "states": []
+    },
     "keywords": [
       "outlook",
       "email",
@@ -23,27 +29,31 @@
     ],
     "solution": [
       "In Outlook:",
+      "",
       "1. Open the email containing the document you want to forward.",
+      "",
       "2. Download the document.",
-      "   A. Click the down arrow next to the document.",
-      "   B. Select Download.",
-      "   C. Make note of the file name.",
-      "   D. Save the file to the Downloads folder.",
-      "   E. Click Save.",
+      "- Click the down arrow next to the document.",
+      "- Select **Download**.",
+      "- Make note of the file name.",
+      "- Save the file to the **Downloads** folder.",
+      "- Click **Save**.",
       "",
       "In File Explorer:",
+      "",
       "3. Verify that the file was downloaded.",
-      "   A. Open File Explorer.",
-      "   B. Go to the Downloads folder.",
-      "   C. Locate the file you saved.",
+      "- Open File Explorer.",
+      "- Go to the **Downloads** folder.",
+      "- Locate the file you saved.",
       "",
       "In Outlook:",
+      "",
       "4. Create a new email or open the email where you want to attach the downloaded file.",
-      "   A. Select the option to attach a file.",
-      "   B. Go to the Downloads folder.",
-      "   C. Select the file you downloaded.",
-      "   D. Attach it to the email.",
-      "   E. Verify that the file appears as an attachment before sending the email."
+      "- Select the option to attach a file.",
+      "- Go to the **Downloads** folder.",
+      "- Select the file you downloaded.",
+      "- Attach it to the email.",
+      "- Verify that the file appears as an attachment before sending the email."
     ]
   },
   {
@@ -51,6 +61,12 @@
     "category": "Email",
     "subcategory": "Outlook",
     "title": "Creating an Email Signature in Outlook",
+    "semantics": {
+      "intents": ["CREATE", "ADD"],
+      "objects": ["SIGNATURE"],
+      "contexts": ["OUTLOOK", "EMAIL"],
+      "states": []
+    },
     "keywords": ["outlook", "email", "signature", "create", "add"],
     "phrases": [
       "create an email signature",

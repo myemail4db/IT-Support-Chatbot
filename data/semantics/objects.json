@@ -1,0 +1,23 @@
+{
+  "DOCUMENT": {
+    "description": "A document or file the user is working with.",
+    "terms": [
+      "document",
+      "file"
+    ]
+  },
+  "ATTACHMENT": {
+    "description": "A file attached to an email or message.",
+    "terms": [
+      "attachment",
+      "attachments"
+    ]
+  },
+  "SIGNATURE": {
+    "description": "An email signature.",
+    "terms": [
+      "signature",
+      "signatures"
+    ]
+  }
+}

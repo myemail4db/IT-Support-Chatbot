@@ -1,0 +1,10 @@
+{
+  "OUTLOOK": {
+    "description": "Microsoft Outlook email application.",
+    "terms": ["outlook"]
+  },
+  "EMAIL": {
+    "description": "Email-related activity where a specific application may not be stated.",
+    "terms": ["email", "mail"]
+  }
+}
