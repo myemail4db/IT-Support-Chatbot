@@ -1,0 +1,71 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Using the Chatbot | IT Support Chatbot</title>
+<link rel="stylesheet" href="../assets/styles.css" />
+</head>
+<body data-base="../">
+<div class="shell">
+<aside class="sidebar">
+<div class="brand">IT Support Chatbot</div>
+<div class="subbrand">Project Documentation</div>
+<input id="docSearch" class="search" placeholder="Search documentation…" />
+<div id="searchResults" class="search-results"></div>
+
+<div class="nav-section">
+  <div class="nav-title">Start Here</div>
+  <a class="nav-link" href="../index.html">Documentation Home</a>
+  <a class="nav-link" href="user-intro.html">I'm a User</a>
+  <a class="nav-link" href="developer-intro.html">I'm a Developer</a>
+</div>
+<div class="nav-section">
+  <div class="nav-title">MVP</div>
+  <a class="nav-link" href="architecture.html">Architecture</a>
+  <a class="nav-link" href="conversation-flow.html">Conversation Flow</a>
+  <a class="nav-link" href="getting-started.html">Getting Started</a>
+  <a class="nav-link" href="agents-playground.html">Agents Playground</a>
+</div>
+<div class="nav-section">
+  <div class="nav-title">Planning</div>
+  <a class="nav-link" href="security.html">Security</a>
+  <a class="nav-link" href="development-journey.html">Development Journey</a>
+  <a class="nav-link" href="future-options.html">Future Options</a>
+  <a class="nav-link" href="pubsub.html">Pub/Sub Examples</a>
+</div>
+</aside>
+<main class="main">
+
+<div class="breadcrumbs"><a href="../index.html">Home</a> › User › Introduction</div>
+<span class="badge mvp">MVP</span>
+<h1>Using the Chatbot</h1>
+<div class="summary"><strong>What you'll find here:</strong> A non-technical introduction to the chatbot, what it is meant to help with, how a conversation works, and why chat is useful alongside voice support.</div>
+
+<h2>What is the chatbot?</h2>
+<p>The chatbot is an additional IT-support communication channel inside Microsoft Teams. A user describes an IT problem conversationally. The chatbot analyzes the request, looks for the best matching approved support topic, and responds with the appropriate support information.</p>
+
+<h2>What happens when I ask a question?</h2>
+<pre>User describes a problem
+        ↓
+Chatbot looks for what the user is trying to do
+        ↓
+Chatbot identifies what the problem is about
+        ↓
+Chatbot uses additional context
+        ↓
+Best support topic is selected
+        ↓
+Answer, clarification, or unresolved handling</pre>
+
+<h2>Why chat in addition to voice?</h2>
+<p>Chat does not have to replace voice support. It provides another path when voice quality is poor or when technical information is easier to send in writing. Users can paste exact error messages, provide screenshots, and refer back to the conversation history.</p>
+
+<h2>If the chatbot is unsure</h2>
+<p>The chatbot should not guess. It can ask the user for more information. If the issue remains unresolved after the supported clarification flow, the problem can be recorded for IT review.</p>
+
+</main>
+</div>
+<script src="../assets/search.js"></script>
+</body>
+</html>

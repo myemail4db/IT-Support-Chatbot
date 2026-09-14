@@ -1,0 +1,74 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Architecture | IT Support Chatbot</title>
+<link rel="stylesheet" href="../assets/styles.css" />
+</head>
+<body data-base="../">
+<div class="shell">
+<aside class="sidebar">
+<div class="brand">IT Support Chatbot</div>
+<div class="subbrand">Project Documentation</div>
+<input id="docSearch" class="search" placeholder="Search documentation…" />
+<div id="searchResults" class="search-results"></div>
+
+<div class="nav-section">
+  <div class="nav-title">Start Here</div>
+  <a class="nav-link" href="../index.html">Documentation Home</a>
+  <a class="nav-link" href="user-intro.html">I'm a User</a>
+  <a class="nav-link" href="developer-intro.html">I'm a Developer</a>
+</div>
+<div class="nav-section">
+  <div class="nav-title">MVP</div>
+  <a class="nav-link" href="architecture.html">Architecture</a>
+  <a class="nav-link" href="conversation-flow.html">Conversation Flow</a>
+  <a class="nav-link" href="getting-started.html">Getting Started</a>
+  <a class="nav-link" href="agents-playground.html">Agents Playground</a>
+</div>
+<div class="nav-section">
+  <div class="nav-title">Planning</div>
+  <a class="nav-link" href="security.html">Security</a>
+  <a class="nav-link" href="development-journey.html">Development Journey</a>
+  <a class="nav-link" href="future-options.html">Future Options</a>
+  <a class="nav-link" href="pubsub.html">Pub/Sub Examples</a>
+</div>
+</aside>
+<main class="main">
+
+<div class="breadcrumbs"><a href="../index.html">Home</a> › Developer › Architecture</div>
+<span class="badge mvp">MVP</span>
+<h1>Architecture</h1>
+<div class="summary"><strong>What you'll find here:</strong> The main processing components that turn a user's message into a support result.</div>
+
+<h2>Matching model</h2>
+<p>The current design separates understanding into three conceptual signals:</p>
+<table>
+<tr><th>Signal</th><th>Purpose</th></tr>
+<tr><td>Intent</td><td>What the user is trying to do.</td></tr>
+<tr><td>Object</td><td>The application, feature, device, or thing involved.</td></tr>
+<tr><td>Context</td><td>Additional details that help distinguish similar support topics.</td></tr>
+</table>
+
+<pre>matchIntent()
+matchObject()
+matchContext()
+      ↓
+Score all approved support topics
+      ↓
+Select the strongest result
+      ↓
+FOUND / AMBIGUOUS / unresolved flow</pre>
+
+<h2>Knowledge separation</h2>
+<p>Approved support content and semantic matching vocabulary are kept separate. Unresolved user submissions are also kept separate and must be reviewed before becoming approved support knowledge.</p>
+
+<h2>MVP boundary</h2>
+<p>The current milestone proves the core support workflow locally. Production Teams deployment, organizational authentication, Pub/Sub, automated weekly notifications, database-backed knowledge, and production monitoring remain outside the MVP.</p>
+
+</main>
+</div>
+<script src="../assets/search.js"></script>
+</body>
+</html>

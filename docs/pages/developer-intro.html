@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Developer Introduction | IT Support Chatbot</title>
+<link rel="stylesheet" href="../assets/styles.css" />
+</head>
+<body data-base="../">
+<div class="shell">
+<aside class="sidebar">
+<div class="brand">IT Support Chatbot</div>
+<div class="subbrand">Project Documentation</div>
+<input id="docSearch" class="search" placeholder="Search documentation…" />
+<div id="searchResults" class="search-results"></div>
+
+<div class="nav-section">
+  <div class="nav-title">Start Here</div>
+  <a class="nav-link" href="../index.html">Documentation Home</a>
+  <a class="nav-link" href="user-intro.html">I'm a User</a>
+  <a class="nav-link" href="developer-intro.html">I'm a Developer</a>
+</div>
+<div class="nav-section">
+  <div class="nav-title">MVP</div>
+  <a class="nav-link" href="architecture.html">Architecture</a>
+  <a class="nav-link" href="conversation-flow.html">Conversation Flow</a>
+  <a class="nav-link" href="getting-started.html">Getting Started</a>
+  <a class="nav-link" href="agents-playground.html">Agents Playground</a>
+</div>
+<div class="nav-section">
+  <div class="nav-title">Planning</div>
+  <a class="nav-link" href="security.html">Security</a>
+  <a class="nav-link" href="development-journey.html">Development Journey</a>
+  <a class="nav-link" href="future-options.html">Future Options</a>
+  <a class="nav-link" href="pubsub.html">Pub/Sub Examples</a>
+</div>
+</aside>
+<main class="main">
+
+<div class="breadcrumbs"><a href="../index.html">Home</a> › Developer › Introduction</div>
+<span class="badge mvp">MVP</span>
+<h1>Understanding the Chatbot as a Developer</h1>
+<div class="summary"><strong>What you'll find here:</strong> The developer view of the chatbot, including its matching pipeline, local testing path, support data, and where to go next.</div>
+
+<h2>Core processing flow</h2>
+<pre>Microsoft Teams-style message
+        ↓
+Conversation processing
+        ↓
+Intent matching
+Object matching
+Context matching
+        ↓
+Score all support topics
+        ↓
+Best result
+        ↓
+FOUND / AMBIGUOUS / UNRESOLVED</pre>
+
+<h2>Current support data</h2>
+<p>Approved support topics are stored in <code>data/support/support-data.json</code>. Semantic vocabulary is stored separately under <code>data/semantics/</code>. This keeps approved answers separate from the language used to understand user questions.</p>
+
+<h2>Recommended developer path</h2>
+<ol>
+<li>Read <a href="architecture.html">Architecture</a>.</li>
+<li>Follow <a href="getting-started.html">Getting Started</a> from a fresh repository download.</li>
+<li>Use <a href="agents-playground.html">Microsoft 365 Agents Playground</a> for local testing.</li>
+<li>Run known, ambiguous, and unsupported test questions.</li>
+<li>Review <a href="security.html">MVP Security</a> before expanding connectivity.</li>
+</ol>
+
+</main>
+</div>
+<script src="../assets/search.js"></script>
+</body>
+</html>
