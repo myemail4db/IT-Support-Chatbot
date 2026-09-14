@@ -16,6 +16,9 @@ devTools/
 data/unresolved-problems.json
 data/feedback.json
 
+# Runtime unresolved support submissions
+data/unresolved/
+
 # npm / package manager logs
 npm-debug.log*
 yarn-debug.log*
