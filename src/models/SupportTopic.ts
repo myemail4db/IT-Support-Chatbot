@@ -15,3 +15,10 @@ export interface SupportTopic {
   phrases: string[];
   solution: string[];
 }
+
+export interface TopicMatchResult {
+  status: 'FOUND' | 'AMBIGUOUS' | 'NOT_FOUND';
+  topic?: SupportTopic;
+  context?: string;
+  candidates?: SupportTopic[];
+}

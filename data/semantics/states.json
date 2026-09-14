@@ -1,1 +1,11 @@
-{}
+{
+  "MISSING": {
+    "description": "Something the user expects to be available is missing.",
+    "terms": ["missing", "disappeared", "gone"]
+  },
+
+  "UNABLE": {
+    "description": "The user is unable to perform an action.",
+    "terms": ["cannot", "can't", "unable"]
+  }
+}

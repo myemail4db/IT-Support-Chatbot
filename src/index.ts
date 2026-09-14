@@ -31,16 +31,28 @@ app.on('message', async ({ send, activity }) => {
   await send({ type: 'typing' });
 
   const userText = activity.text ?? '';
-  const topic = findSupportTopic(userText);
-  const intent = matchIntent(userText);
-  
-  console.log(`Detected intent: ${intent ?? 'none'}`);
+  const result = findSupportTopic(userText);
+
   console.log(`Intent: ${matchIntent(userText) ?? 'NONE'}`);
   console.log(`Object: ${matchObject(userText) ?? 'NONE'}`);
   console.log(`Context: ${matchContext(userText) ?? 'NONE'}`);
   console.log(`State: ${matchState(userText) ?? 'NONE'}`);
-  if (topic) {
-    await send(`**${topic.title}**\n\n${topic.solution.join('\n')}`);
+
+  if (result.status === 'FOUND' && result.topic) {
+    await send(
+      `**${result.topic.title}**\n\n${result.topic.solution.join('\n')}`,
+    );
+    return;
+  }
+
+  if (result.status === 'AMBIGUOUS') {
+    const contextText = result.context
+      ? ` ${result.context.charAt(0) + result.context.slice(1).toLowerCase()}`
+      : '';
+
+    await send(
+      `I found more than one possible${contextText} solution. Could you provide a little more detail about what you're trying to do?`,
+    );
     return;
   }
 
