@@ -1,0 +1,124 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>AI Support Topic Prompt | IT Support Chatbot</title><link rel="stylesheet" href="../assets/styles.css" /></head>
+<body data-base="../"><div class="shell"><aside class="sidebar"><div class="brand">IT Support Chatbot</div>
+<div class="subbrand">Project Documentation</div>
+<input id="docSearch" class="search" placeholder="Search documentation…" />
+<div id="searchResults" class="search-results"></div>
+<div class="nav-section"><div class="nav-title">Start Here</div>
+<a class="nav-link" href="../index.html">Documentation Home</a>
+<a class="nav-link" href="user-intro.html">I'm a User</a>
+<a class="nav-link" href="developer-intro.html">I'm a Developer</a></div>
+<div class="nav-section"><div class="nav-title">MVP</div>
+<a class="nav-link" href="architecture.html">Architecture</a>
+<a class="nav-link" href="conversation-flow.html">Conversation Flow</a>
+<a class="nav-link" href="sample-conversations.html">Sample Conversations</a>
+<a class="nav-link" href="getting-started.html">Getting Started</a>
+<a class="nav-link" href="agents-playground.html">Agents Playground</a></div>
+<div class="nav-section"><div class="nav-title">Support Data</div>
+<a class="nav-link" href="managing-support-data.html">Managing Support Data</a>
+<a class="nav-link" href="ai-support-topic-prompt.html">AI Support Topic Prompt</a></div>
+<div class="nav-section"><div class="nav-title">Planning</div>
+<a class="nav-link" href="security.html">Security</a>
+<a class="nav-link" href="development-journey.html">Development Journey</a>
+<a class="nav-link" href="future-options.html">Future Options</a>
+<a class="nav-link" href="pubsub.html">Pub/Sub Examples</a></div></aside><main class="main">
+<div class="breadcrumbs"><a href="../index.html">Home</a> › <a href="developer-intro.html">Developer</a> › <a href="managing-support-data.html">Managing Support Data</a> › AI Support Topic Prompt</div><span class="badge mvp">MVP</span>
+<h1>AI Support Topic Prompt</h1><div class="summary"><strong>What you'll find here:</strong> A reusable prompt that converts approved IT procedures into the project's support-data format and explains how to integrate and test the change.</div>
+<div class="note"><strong>Review before check-in:</strong> Generated information must be reviewed by an authorized person. If the change crosses from data maintenance into application development, involve a developer.</div>
+<h2>Prompt: Add a new support topic</h2><p>Copy the complete prompt below and paste the approved IT support procedure at the bottom.</p>
+<pre><code>You are helping maintain an IT Support Chatbot knowledge base.
+
+Convert APPROVED IT support documentation into the chatbot&#x27;s existing support-data format and explain how to integrate it.
+
+RULES
+1. Use only the approved source material supplied.
+2. Do not invent procedures, URLs, commands, policies, security instructions, application behavior, or troubleshooting steps.
+3. If information is missing, write REVIEW REQUIRED instead of guessing.
+4. Preserve the technical meaning and order of the approved procedure.
+5. Routine support-topic maintenance is data-driven. Do not recommend changing application source code unless the request cannot be represented by the existing support-data and semantic structures.
+6. Do not create new project files unless genuinely required.
+7. If application source code must change, label it DEVELOPER ASSISTANCE REQUIRED.
+8. Generated content must be reviewed before becoming approved chatbot knowledge.
+
+CURRENT SUPPORT TOPIC SCHEMA
+{
+  &quot;id&quot;: &quot;lowercase-hyphenated-id&quot;,
+  &quot;category&quot;: &quot;Category&quot;,
+  &quot;subcategory&quot;: &quot;Subcategory&quot;,
+  &quot;title&quot;: &quot;Human-readable title&quot;,
+  &quot;semantics&quot;: {
+    &quot;intents&quot;: [&quot;VALUE&quot;],
+    &quot;objects&quot;: [&quot;VALUE&quot;],
+    &quot;contexts&quot;: [&quot;VALUE&quot;],
+    &quot;states&quot;: []
+  },
+  &quot;keywords&quot;: [&quot;keyword&quot;],
+  &quot;phrases&quot;: [&quot;natural language phrase&quot;],
+  &quot;solution&quot;: [&quot;instruction line&quot;]
+}
+
+SEMANTIC DIMENSIONS
+- intents: what the user is trying to do
+- objects: the item, feature, system, or thing involved
+- contexts: application, environment, or relevant setting
+- states: condition or status when applicable; may be empty
+
+OUTPUT
+
+SECTION 1 - SUPPORT TOPIC JSON
+Return one valid JSON object matching the schema exactly. Use uppercase semantic values. Keep states as [] when no meaningful state is supported.
+
+SECTION 2 - FILE INTEGRATION PLAN
+Evaluate:
+- data/support/support-data.json
+- data/semantics/intent-semantics.json
+- data/semantics/object-semantics.json
+- data/semantics/context-semantics.json
+- data/semantics/state-semantics.json
+- application source code
+
+For each use: [CHANGE], [NO CHANGE], [REVIEW REQUIRED], or [DEVELOPER ASSISTANCE REQUIRED].
+Do not claim a semantic value already exists unless the current semantic files were supplied or explicitly confirmed.
+
+SECTION 3 - STEP-BY-STEP ADDITION INSTRUCTIONS
+Write for a non-developer. Explain where to add the JSON, how to keep the JSON array valid, which semantic files to check, how to add only genuinely new vocabulary, when not to modify source code, and when to ask a developer.
+
+SECTION 4 - REVIEW CHECKLIST
+Check approved source, invented steps, unique id, valid JSON, semantic values, keywords/phrases, secrets/sensitive information, and solution order.
+
+SECTION 5 - TEST QUESTIONS
+Provide 5 clear positive questions, 2 alternate wordings, 2 ambiguous questions, and 2 unrelated questions.
+
+SECTION 6 - FINAL MAINTAINER SUMMARY
+Summarize files to change, files not to change, review items, and whether developer assistance is required.
+
+APPROVED IT SUPPORT DOCUMENTATION
+Paste the approved procedure below this line:
+</code></pre>
+<h2>Prompt: Validate before check-in</h2><p>Use this after the topic has been generated or manually edited.</p>
+<pre><code>Review the proposed IT Support Chatbot topic before check-in.
+
+Use the approved source material as the authority. Do not invent corrections.
+
+Check required fields, semantic arrays, lowercase hyphenated id, JSON syntax, invented procedures/URLs/commands/policies/security instructions, keywords and phrases, solution accuracy/order, state usage, semantic values requiring review, and whether the change is data-only or needs a developer.
+
+Return:
+- PASS or REVIEW REQUIRED
+- Problems found
+- Exact corrections needed
+- Files to check or change
+- Suggested smoke tests
+
+APPROVED SOURCE MATERIAL:
+[paste source]
+
+PROPOSED TOPIC JSON:
+[paste JSON]
+</code></pre>
+<h2>Expected output</h2>
+<p>The prompt should return proposed JSON, a file integration plan, non-developer instructions, a review checklist, test questions, and a final maintainer summary. If current semantic files were not supplied, existence checks should be marked <strong>REVIEW REQUIRED</strong> rather than guessed.</p>
+<h2>Maintenance versus development</h2>
+<p>Adding approved support knowledge is maintenance. Changing how the chatbot scores, routes, authenticates, integrates, or conducts conversations is application development.</p>
+<div class="footer-nav"><a href="managing-support-data.html">← Managing Support Data</a><a href="security.html">Security →</a></div>
+</main></div><script src="../assets/search.js"></script></body></html>

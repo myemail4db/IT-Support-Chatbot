@@ -13,54 +13,66 @@
 <div class="subbrand">Project Documentation</div>
 <input id="docSearch" class="search" placeholder="Search documentation…" />
 <div id="searchResults" class="search-results"></div>
-
-<div class="nav-section">
-  <div class="nav-title">Start Here</div>
-  <a class="nav-link" href="../index.html">Documentation Home</a>
-  <a class="nav-link" href="user-intro.html">I'm a User</a>
-  <a class="nav-link" href="developer-intro.html">I'm a Developer</a>
-</div>
-<div class="nav-section">
-  <div class="nav-title">MVP</div>
-  <a class="nav-link" href="architecture.html">Architecture</a>
-  <a class="nav-link" href="conversation-flow.html">Conversation Flow</a>
-  <a class="nav-link" href="sample-conversations.html">Sample Conversations</a>
-  <a class="nav-link" href="getting-started.html">Getting Started</a>
-  <a class="nav-link" href="agents-playground.html">Agents Playground</a>
-</div>
-<div class="nav-section">
-  <div class="nav-title">Planning</div>
-  <a class="nav-link" href="security.html">Security</a>
-  <a class="nav-link" href="development-journey.html">Development Journey</a>
-  <a class="nav-link" href="future-options.html">Future Options</a>
-  <a class="nav-link" href="pubsub.html">Pub/Sub Examples</a>
-</div>
+<div class="nav-section"><div class="nav-title">Start Here</div>
+<a class="nav-link" href="../index.html">Documentation Home</a>
+<a class="nav-link" href="user-intro.html">I'm a User</a>
+<a class="nav-link" href="developer-intro.html">I'm a Developer</a></div>
+<div class="nav-section"><div class="nav-title">MVP</div>
+<a class="nav-link" href="architecture.html">Architecture</a>
+<a class="nav-link" href="conversation-flow.html">Conversation Flow</a>
+<a class="nav-link" href="sample-conversations.html">Sample Conversations</a>
+<a class="nav-link" href="getting-started.html">Getting Started</a>
+<a class="nav-link" href="agents-playground.html">Agents Playground</a></div>
+<div class="nav-section"><div class="nav-title">Support Data</div>
+<a class="nav-link" href="managing-support-data.html">Managing Support Data</a>
+<a class="nav-link" href="ai-support-topic-prompt.html">AI Support Topic Prompt</a></div>
+<div class="nav-section"><div class="nav-title">Planning</div>
+<a class="nav-link" href="security.html">Security</a>
+<a class="nav-link" href="development-journey.html">Development Journey</a>
+<a class="nav-link" href="future-options.html">Future Options</a>
+<a class="nav-link" href="pubsub.html">Pub/Sub Examples</a></div>
 </aside>
 <main class="main">
 
-<div class="breadcrumbs"><a href="../index.html">Home</a> › Developer › Architecture</div>
+<div class="breadcrumbs"><a href="../index.html">Home</a> › <a href="developer-intro.html">Developer</a> › Architecture</div>
 <span class="badge mvp">MVP</span>
 <h1>Architecture</h1>
 <div class="summary"><strong>What you'll find here:</strong> The main processing components that turn a user's message into a support result.</div>
 
 <h2>Matching model</h2>
-<p>The current design separates understanding into three conceptual signals:</p>
+<p>The current design separates understanding into four conceptual signals:</p>
 <table>
 <tr><th>Signal</th><th>Purpose</th></tr>
 <tr><td>Intent</td><td>What the user is trying to do.</td></tr>
 <tr><td>Object</td><td>The application, feature, device, or thing involved.</td></tr>
 <tr><td>Context</td><td>Additional details that help distinguish similar support topics.</td></tr>
+<tr><td>State</td><td>A relevant condition or status that can further distinguish a support topic; it may be empty.</td></tr>
 </table>
 
 <pre>matchIntent()
 matchObject()
 matchContext()
+matchState()
       ↓
 Score all approved support topics
       ↓
 Select the strongest result
       ↓
 FOUND / AMBIGUOUS / unresolved flow</pre>
+
+<h2>Conversation state</h2>
+<p>Temporary conversation state is isolated by <code>conversationId</code>. The MVP tracks misses, repeated ambiguity, unresolved-question details, pending submissions, answered questions, and whether it is waiting for helpfulness feedback. This prevents one active conversation from sharing state with another.</p>
+
+<h2>Unresolved issue records</h2>
+<p>When a problem is submitted for IT review, the chatbot preserves both the original question and the later rephrased or clarifying question. Local Agents Playground testing records the user as <code>user</code>. A future Microsoft Teams deployment will obtain the user identity from the authenticated Teams environment.</p>
+<pre>{
+  "conversationId": "...",
+  "user": "user",
+  "originalQuestion": "...",
+  "rephrasedQuestion": "...",
+  "submittedAt": "2026-09-15T14:03:22.892-07:00"
+}</pre>
+<p>Submission timestamps use ISO 8601 local runtime time with the UTC offset. Unresolved records remain separate from approved support knowledge.</p>
 
 <h2>Knowledge separation</h2>
 <p>Approved support content and semantic matching vocabulary are kept separate. Unresolved user submissions are also kept separate and must be reviewed before becoming approved support knowledge.</p>

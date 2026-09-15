@@ -13,32 +13,28 @@
 <div class="subbrand">Project Documentation</div>
 <input id="docSearch" class="search" placeholder="Search documentation…" />
 <div id="searchResults" class="search-results"></div>
-
-<div class="nav-section">
-  <div class="nav-title">Start Here</div>
-  <a class="nav-link" href="../index.html">Documentation Home</a>
-  <a class="nav-link" href="user-intro.html">I'm a User</a>
-  <a class="nav-link" href="developer-intro.html">I'm a Developer</a>
-</div>
-<div class="nav-section">
-  <div class="nav-title">MVP</div>
-  <a class="nav-link" href="architecture.html">Architecture</a>
-  <a class="nav-link" href="conversation-flow.html">Conversation Flow</a>
-  <a class="nav-link active" href="sample-conversations.html">Sample Conversations</a>
-  <a class="nav-link" href="getting-started.html">Getting Started</a>
-  <a class="nav-link" href="agents-playground.html">Agents Playground</a>
-</div>
-<div class="nav-section">
-  <div class="nav-title">Planning</div>
-  <a class="nav-link" href="security.html">Security</a>
-  <a class="nav-link" href="development-journey.html">Development Journey</a>
-  <a class="nav-link" href="future-options.html">Future Options</a>
-  <a class="nav-link" href="pubsub.html">Pub/Sub Examples</a>
-</div>
+<div class="nav-section"><div class="nav-title">Start Here</div>
+<a class="nav-link" href="../index.html">Documentation Home</a>
+<a class="nav-link" href="user-intro.html">I'm a User</a>
+<a class="nav-link" href="developer-intro.html">I'm a Developer</a></div>
+<div class="nav-section"><div class="nav-title">MVP</div>
+<a class="nav-link" href="architecture.html">Architecture</a>
+<a class="nav-link" href="conversation-flow.html">Conversation Flow</a>
+<a class="nav-link" href="sample-conversations.html">Sample Conversations</a>
+<a class="nav-link" href="getting-started.html">Getting Started</a>
+<a class="nav-link" href="agents-playground.html">Agents Playground</a></div>
+<div class="nav-section"><div class="nav-title">Support Data</div>
+<a class="nav-link" href="managing-support-data.html">Managing Support Data</a>
+<a class="nav-link" href="ai-support-topic-prompt.html">AI Support Topic Prompt</a></div>
+<div class="nav-section"><div class="nav-title">Planning</div>
+<a class="nav-link" href="security.html">Security</a>
+<a class="nav-link" href="development-journey.html">Development Journey</a>
+<a class="nav-link" href="future-options.html">Future Options</a>
+<a class="nav-link" href="pubsub.html">Pub/Sub Examples</a></div>
 </aside>
 
 <main class="main">
-<div class="breadcrumbs"><a href="../index.html">Home</a> › MVP › Sample Conversations</div>
+<div class="breadcrumbs"><a href="../index.html">Home</a> › <a href="conversation-flow.html">MVP</a> › Sample Conversations</div>
 <span class="badge mvp">MVP EXAMPLES</span>
 <h1>Sample Conversations</h1>
 <div class="summary"><strong>What you'll find here:</strong> Example conversations showing the three main behaviors the MVP is designed to demonstrate: a known support question, an ambiguous question that needs clarification, and an unresolved question that should be recorded for IT review.</div>
@@ -47,6 +43,8 @@
 <div class="conversation">
   <div class="message user"><div class="speaker">User</div><p>How do I create an email signature in Outlook?</p></div>
   <div class="message"><div class="speaker">Chatbot</div><p>I found a matching support topic for creating an Outlook email signature. Here are the approved steps.</p></div>
+  <div class="message"><div class="speaker">Chatbot</div><p>Was this helpful? Please answer yes or no.</p></div>
+  <div class="message user"><div class="speaker">User</div><p>Yes.</p></div>
 </div>
 <figure class="figure">
   <img src="../assets/images/sample-known-question.png" alt="Example screenshot of a known support question and chatbot response" />
@@ -56,7 +54,7 @@
 <h2>2. Ambiguous question</h2>
 <div class="conversation">
   <div class="message user"><div class="speaker">User</div><p>How do I add something to my Outlook email before I send it?</p></div>
-  <div class="message"><div class="speaker">Chatbot</div><p>I found more than one possible support topic. Are you trying to add a signature, attach a file, or do something else?</p></div>
+  <div class="message"><div class="speaker">Chatbot</div><p>I found more than one possible support topic. Could you provide a little more detail about what you're trying to do?</p></div>
   <div class="message user"><div class="speaker">User</div><p>I want to attach a document.</p></div>
   <div class="message"><div class="speaker">Chatbot</div><p>Thanks. I found the support topic for attaching a document to an Outlook email.</p></div>
 </div>
@@ -70,18 +68,32 @@
   <div class="message user"><div class="speaker">User</div><p>My application shows an error that is not in the support list.</p></div>
   <div class="message"><div class="speaker">Chatbot</div><p>I could not confidently match that problem. Please rephrase it and include the application name or exact error message.</p></div>
   <div class="message user"><div class="speaker">User</div><p>The same error appears after I rephrase it.</p></div>
-  <div class="message"><div class="speaker">Chatbot</div><p>I still could not match the problem. I can record it for IT review.</p></div>
+  <div class="message"><div class="speaker">Chatbot</div><p>I still could not match the problem. Would you like to submit this problem for IT review?</p></div>
+  <div class="message user"><div class="speaker">User</div><p>Yes.</p></div>
+  <div class="message"><div class="speaker">Chatbot</div><p>Your problem has been submitted for IT review.</p></div>
 </div>
 <figure class="figure">
   <img src="../assets/images/sample-unresolved-question.png" alt="Example screenshot of an unresolved support question" />
   <figcaption>After the supported rephrase flow, an unmatched problem can be recorded for later IT review.</figcaption>
 </figure>
 
+<h2>4. Repeated ambiguity</h2>
+<div class="conversation">
+  <div class="message user"><div class="speaker">User</div><p>The signature disappears when I do something with my email.</p></div>
+  <div class="message"><div class="speaker">Chatbot</div><p>I found more than one possible Email solution. Could you provide a little more detail about what you're trying to do?</p></div>
+  <div class="message user"><div class="speaker">User</div><p>My Outlook signature disappears only when I send messages to people outside the company.</p></div>
+  <div class="message"><div class="speaker">Chatbot</div><p>I still couldn't determine the correct solution. Would you like to submit this problem for IT review?</p></div>
+</div>
+<p>The chatbot allows one clarification attempt. If the result remains ambiguous, it offers IT review instead of repeatedly asking for more detail.</p>
+
+<h2>Unresolved record details</h2>
+<p>Submitted unresolved issues preserve <code>conversationId</code>, the user, the original question, the rephrased or final clarifying question, and the submission time. Local testing uses <code>user</code> for identity. Timestamps use ISO 8601 local runtime time with the UTC offset, for example <code>2026-09-15T14:03:22.892-07:00</code>.</p>
+
 <h2>What these examples are meant to prove</h2>
 <table>
 <tr><th>Scenario</th><th>MVP behavior</th></tr>
-<tr><td>Clear match</td><td>Return the approved support topic.</td></tr>
-<tr><td>More than one plausible match</td><td>Ask a clarification question.</td></tr>
+<tr><td>Clear match</td><td>Return the approved support topic and ask whether it was helpful.</td></tr>
+<tr><td>More than one plausible match</td><td>Ask for clarification once; if still ambiguous, offer IT review.</td></tr>
 <tr><td>No reliable match after rephrasing</td><td>Offer unresolved-problem submission for IT review.</td></tr>
 </table>
 

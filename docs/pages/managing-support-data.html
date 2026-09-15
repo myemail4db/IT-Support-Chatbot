@@ -1,0 +1,137 @@
+<!doctype html><html lang="en"><head><meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Managing Support Data | IT Support Chatbot</title><link rel="stylesheet" href="../assets/styles.css" /></head>
+<body data-base="../"><div class="shell"><aside class="sidebar"><div class="brand">IT Support Chatbot</div>
+<div class="subbrand">Project Documentation</div>
+<input id="docSearch" class="search" placeholder="Search documentation…" />
+<div id="searchResults" class="search-results"></div>
+<div class="nav-section"><div class="nav-title">Start Here</div>
+<a class="nav-link" href="../index.html">Documentation Home</a>
+<a class="nav-link" href="user-intro.html">I'm a User</a>
+<a class="nav-link" href="developer-intro.html">I'm a Developer</a></div>
+<div class="nav-section"><div class="nav-title">MVP</div>
+<a class="nav-link" href="architecture.html">Architecture</a>
+<a class="nav-link" href="conversation-flow.html">Conversation Flow</a>
+<a class="nav-link" href="sample-conversations.html">Sample Conversations</a>
+<a class="nav-link" href="getting-started.html">Getting Started</a>
+<a class="nav-link" href="agents-playground.html">Agents Playground</a></div>
+<div class="nav-section"><div class="nav-title">Support Data</div>
+<a class="nav-link" href="managing-support-data.html">Managing Support Data</a>
+<a class="nav-link" href="ai-support-topic-prompt.html">AI Support Topic Prompt</a></div>
+<div class="nav-section"><div class="nav-title">Planning</div>
+<a class="nav-link" href="security.html">Security</a>
+<a class="nav-link" href="development-journey.html">Development Journey</a>
+<a class="nav-link" href="future-options.html">Future Options</a>
+<a class="nav-link" href="pubsub.html">Pub/Sub Examples</a></div></aside><main class="main">
+<div class="breadcrumbs"><a href="../index.html">Home</a> › <a href="developer-intro.html">Developer</a> › Managing Support Data</div><span class="badge mvp">MVP</span>
+<h1>Managing Support Data</h1><div class="summary"><strong>What you'll find here:</strong> How authorized maintainers can add approved support topics without routinely changing application code.</div>
+<h2>Design principle</h2>
+<p><strong>Routine support-topic maintenance should be data-driven and should not require application development.</strong> Authorized IT support personnel, application-support analysts, knowledge-base owners, and developers can use this workflow.</p>
+<div class="note"><strong>Human review is required:</strong> AI accelerates formatting and integration guidance. It is not the source of truth and must not invent procedures, commands, URLs, security instructions, or company policies.</div>
+<h2>Current support topic structure</h2>
+<table><tr><th>Field</th><th>Purpose</th></tr>
+<tr><td><code>id</code></td><td>Unique lowercase, hyphenated identifier.</td></tr>
+<tr><td><code>category</code> / <code>subcategory</code></td><td>Organizes the topic.</td></tr>
+<tr><td><code>title</code></td><td>Human-readable procedure title.</td></tr>
+<tr><td><code>semantics.intents</code></td><td>What the user is trying to do.</td></tr>
+<tr><td><code>semantics.objects</code></td><td>The item, feature, system, or thing involved.</td></tr>
+<tr><td><code>semantics.contexts</code></td><td>The application, environment, or setting.</td></tr>
+<tr><td><code>semantics.states</code></td><td>Relevant condition or status; may be empty.</td></tr>
+<tr><td><code>keywords</code></td><td>Important words associated with the topic.</td></tr>
+<tr><td><code>phrases</code></td><td>Natural ways users may describe the request.</td></tr>
+<tr><td><code>solution</code></td><td>Approved support instructions.</td></tr></table>
+<h3>Current project example</h3><pre><code>{
+  &quot;id&quot;: &quot;outlook-forward-document&quot;,
+  &quot;category&quot;: &quot;Email&quot;,
+  &quot;subcategory&quot;: &quot;Outlook&quot;,
+  &quot;title&quot;: &quot;Forwarding a Document from an Email&quot;,
+  &quot;semantics&quot;: {
+    &quot;intents&quot;: [
+      &quot;FORWARD&quot;
+    ],
+    &quot;objects&quot;: [
+      &quot;DOCUMENT&quot;,
+      &quot;ATTACHMENT&quot;
+    ],
+    &quot;contexts&quot;: [
+      &quot;OUTLOOK&quot;,
+      &quot;EMAIL&quot;
+    ],
+    &quot;states&quot;: []
+  },
+  &quot;keywords&quot;: [
+    &quot;outlook&quot;,
+    &quot;email&quot;,
+    &quot;forward&quot;,
+    &quot;document&quot;,
+    &quot;attachment&quot;,
+    &quot;download&quot;,
+    &quot;attach&quot;
+  ],
+  &quot;phrases&quot;: [
+    &quot;forward a document&quot;,
+    &quot;forward an attachment&quot;,
+    &quot;send a document from an email&quot;,
+    &quot;attach a document from another email&quot;,
+    &quot;download an attachment&quot;,
+    &quot;forward a file from an email&quot;
+  ],
+  &quot;solution&quot;: [
+    &quot;In Outlook:&quot;,
+    &quot;&quot;,
+    &quot;1. Open the email containing the document you want to forward.&quot;,
+    &quot;&quot;,
+    &quot;2. Download the document.&quot;,
+    &quot;- Click the down arrow next to the document.&quot;,
+    &quot;- Select **Download**.&quot;,
+    &quot;- Make note of the file name.&quot;,
+    &quot;- Save the file to the **Downloads** folder.&quot;,
+    &quot;- Click **Save**.&quot;,
+    &quot;&quot;,
+    &quot;In File Explorer:&quot;,
+    &quot;&quot;,
+    &quot;3. Verify that the file was downloaded.&quot;,
+    &quot;- Open File Explorer.&quot;,
+    &quot;- Go to the **Downloads** folder.&quot;,
+    &quot;- Locate the file you saved.&quot;,
+    &quot;&quot;,
+    &quot;In Outlook:&quot;,
+    &quot;&quot;,
+    &quot;4. Create a new email or open the email where you want to attach the downloaded file.&quot;,
+    &quot;- Select the option to attach a file.&quot;,
+    &quot;- Go to the **Downloads** folder.&quot;,
+    &quot;- Select the file you downloaded.&quot;,
+    &quot;- Attach it to the email.&quot;,
+    &quot;- Verify that the file appears as an attachment before sending the email.&quot;
+  ]
+}</code></pre>
+<h2>Maintenance workflow</h2><pre>Approved IT procedure
+        ↓
+Use documented AI prompt
+        ↓
+Generate support-topic JSON
+        ↓
+Human review
+        ↓
+Check semantic vocabulary
+        ↓
+Add approved data
+        ↓
+Run test conversations
+        ↓
+Commit the change</pre>
+<h2>Files to evaluate</h2><ul>
+<li><code>data/support/support-data.json</code></li>
+<li><code>data/semantics/intent-semantics.json</code></li>
+<li><code>data/semantics/object-semantics.json</code></li>
+<li><code>data/semantics/context-semantics.json</code></li>
+<li><code>data/semantics/state-semantics.json</code></li></ul>
+<p>Reuse existing semantic values when they already represent the concept. Add new vocabulary only when necessary.</p>
+<h2>When a non-developer can make the change</h2>
+<p>A non-developer can use this workflow when the new problem fits the existing support-data and semantic structures. Ordinary knowledge-base maintenance should not require TypeScript changes.</p>
+<h2>When developer assistance is required</h2>
+<p>Stop if the request requires new chatbot behavior rather than new support knowledge, such as scoring changes, new conversation behavior, authentication, external integrations, or application logic.</p>
+<h2>Use the AI support topic prompt</h2>
+<p>Continue to <a href="ai-support-topic-prompt.html">AI Support Topic Prompt</a>. It produces project-compatible JSON, an integration plan, plain-language instructions, review checks, and test questions.</p>
+<div class="footer-nav"><a href="agents-playground.html">← Agents Playground</a><a href="ai-support-topic-prompt.html">AI Support Topic Prompt →</a></div>
+</main></div><script src="../assets/search.js"></script></body></html>

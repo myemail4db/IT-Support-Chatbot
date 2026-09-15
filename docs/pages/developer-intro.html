@@ -13,28 +13,24 @@
 <div class="subbrand">Project Documentation</div>
 <input id="docSearch" class="search" placeholder="Search documentation…" />
 <div id="searchResults" class="search-results"></div>
-
-<div class="nav-section">
-  <div class="nav-title">Start Here</div>
-  <a class="nav-link" href="../index.html">Documentation Home</a>
-  <a class="nav-link" href="user-intro.html">I'm a User</a>
-  <a class="nav-link" href="developer-intro.html">I'm a Developer</a>
-</div>
-<div class="nav-section">
-  <div class="nav-title">MVP</div>
-  <a class="nav-link" href="architecture.html">Architecture</a>
-  <a class="nav-link" href="conversation-flow.html">Conversation Flow</a>
-  <a class="nav-link" href="sample-conversations.html">Sample Conversations</a>
-  <a class="nav-link" href="getting-started.html">Getting Started</a>
-  <a class="nav-link" href="agents-playground.html">Agents Playground</a>
-</div>
-<div class="nav-section">
-  <div class="nav-title">Planning</div>
-  <a class="nav-link" href="security.html">Security</a>
-  <a class="nav-link" href="development-journey.html">Development Journey</a>
-  <a class="nav-link" href="future-options.html">Future Options</a>
-  <a class="nav-link" href="pubsub.html">Pub/Sub Examples</a>
-</div>
+<div class="nav-section"><div class="nav-title">Start Here</div>
+<a class="nav-link" href="../index.html">Documentation Home</a>
+<a class="nav-link" href="user-intro.html">I'm a User</a>
+<a class="nav-link" href="developer-intro.html">I'm a Developer</a></div>
+<div class="nav-section"><div class="nav-title">MVP</div>
+<a class="nav-link" href="architecture.html">Architecture</a>
+<a class="nav-link" href="conversation-flow.html">Conversation Flow</a>
+<a class="nav-link" href="sample-conversations.html">Sample Conversations</a>
+<a class="nav-link" href="getting-started.html">Getting Started</a>
+<a class="nav-link" href="agents-playground.html">Agents Playground</a></div>
+<div class="nav-section"><div class="nav-title">Support Data</div>
+<a class="nav-link" href="managing-support-data.html">Managing Support Data</a>
+<a class="nav-link" href="ai-support-topic-prompt.html">AI Support Topic Prompt</a></div>
+<div class="nav-section"><div class="nav-title">Planning</div>
+<a class="nav-link" href="security.html">Security</a>
+<a class="nav-link" href="development-journey.html">Development Journey</a>
+<a class="nav-link" href="future-options.html">Future Options</a>
+<a class="nav-link" href="pubsub.html">Pub/Sub Examples</a></div>
 </aside>
 <main class="main">
 
@@ -51,6 +47,7 @@ Conversation processing
 Intent matching
 Object matching
 Context matching
+State matching
         ↓
 Score all support topics
         ↓
@@ -60,13 +57,15 @@ FOUND / AMBIGUOUS / UNRESOLVED</pre>
 
 <h2>Current support data</h2>
 <p>Approved support topics are stored in <code>data/support/support-data.json</code>. Semantic vocabulary is stored separately under <code>data/semantics/</code>. This keeps approved answers separate from the language used to understand user questions.</p>
+<p>Routine knowledge maintenance is designed to be data-driven. See <a href="managing-support-data.html">Managing Support Data</a> and the <a href="ai-support-topic-prompt.html">AI Support Topic Prompt</a>.</p>
 
 <h2>Recommended developer path</h2>
 <ol>
 <li>Read <a href="architecture.html">Architecture</a>.</li>
 <li>Follow <a href="getting-started.html">Getting Started</a> from a fresh repository download.</li>
 <li>Use <a href="agents-playground.html">Microsoft 365 Agents Playground</a> for local testing.</li>
-<li>Run known, ambiguous, and unsupported test questions.</li>
+<li>Use <a href="managing-support-data.html">Managing Support Data</a> when adding approved support topics.</li>
+<li>Run known, ambiguous, repeated-ambiguity, helpfulness, and unsupported test questions.</li>
 <li>Review <a href="security.html">MVP Security</a> before expanding connectivity.</li>
 </ol>
 

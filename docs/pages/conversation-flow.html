@@ -13,28 +13,24 @@
 <div class="subbrand">Project Documentation</div>
 <input id="docSearch" class="search" placeholder="Search documentation…" />
 <div id="searchResults" class="search-results"></div>
-
-<div class="nav-section">
-  <div class="nav-title">Start Here</div>
-  <a class="nav-link" href="../index.html">Documentation Home</a>
-  <a class="nav-link" href="user-intro.html">I'm a User</a>
-  <a class="nav-link" href="developer-intro.html">I'm a Developer</a>
-</div>
-<div class="nav-section">
-  <div class="nav-title">MVP</div>
-  <a class="nav-link" href="architecture.html">Architecture</a>
-  <a class="nav-link" href="conversation-flow.html">Conversation Flow</a>
-  <a class="nav-link" href="sample-conversations.html">Sample Conversations</a>
-  <a class="nav-link" href="getting-started.html">Getting Started</a>
-  <a class="nav-link" href="agents-playground.html">Agents Playground</a>
-</div>
-<div class="nav-section">
-  <div class="nav-title">Planning</div>
-  <a class="nav-link" href="security.html">Security</a>
-  <a class="nav-link" href="development-journey.html">Development Journey</a>
-  <a class="nav-link" href="future-options.html">Future Options</a>
-  <a class="nav-link" href="pubsub.html">Pub/Sub Examples</a>
-</div>
+<div class="nav-section"><div class="nav-title">Start Here</div>
+<a class="nav-link" href="../index.html">Documentation Home</a>
+<a class="nav-link" href="user-intro.html">I'm a User</a>
+<a class="nav-link" href="developer-intro.html">I'm a Developer</a></div>
+<div class="nav-section"><div class="nav-title">MVP</div>
+<a class="nav-link" href="architecture.html">Architecture</a>
+<a class="nav-link" href="conversation-flow.html">Conversation Flow</a>
+<a class="nav-link" href="sample-conversations.html">Sample Conversations</a>
+<a class="nav-link" href="getting-started.html">Getting Started</a>
+<a class="nav-link" href="agents-playground.html">Agents Playground</a></div>
+<div class="nav-section"><div class="nav-title">Support Data</div>
+<a class="nav-link" href="managing-support-data.html">Managing Support Data</a>
+<a class="nav-link" href="ai-support-topic-prompt.html">AI Support Topic Prompt</a></div>
+<div class="nav-section"><div class="nav-title">Planning</div>
+<a class="nav-link" href="security.html">Security</a>
+<a class="nav-link" href="development-journey.html">Development Journey</a>
+<a class="nav-link" href="future-options.html">Future Options</a>
+<a class="nav-link" href="pubsub.html">Pub/Sub Examples</a></div>
 </aside>
 <main class="main">
 
@@ -48,12 +44,19 @@
 Analyze all topics
      ↓
 Clear match? ── Yes ──→ Return support answer
-     │
+     │                         ↓
+     │                  Was this helpful?
+     │                    Yes / No
+     │                    │      └─→ Rephrase and search again
+     │                    └─→ Complete
      No
      ↓
-Ambiguous? ── Yes ──→ Ask for clarification
-     │
-     No / still unclear
+Ambiguous? ── Yes ──→ Ask for clarification once
+     │                         ↓
+     │                  Still ambiguous
+     │                         ↓
+     │                  Offer IT review
+     No
      ↓
 Ask user to rephrase
      ↓
@@ -62,6 +65,18 @@ Analyze again
 Still unresolved
      ↓
 Offer to submit for IT review</pre>
+
+<h2>Conversation state and identity</h2>
+<p>Conversation state is keyed by <code>conversationId</code>, so simultaneous conversations keep their own miss counts, ambiguity counts, feedback state, and unresolved-question details. During local Agents Playground testing, unresolved records use <code>user</code> as the user value. In a future Teams deployment, the user value will come from the authenticated Teams environment.</p>
+
+<h2>Original and rephrased questions</h2>
+<p>The first unresolved question is preserved as <code>originalQuestion</code>. A later rephrase or final clarification is stored separately as <code>rephrasedQuestion</code>. The second message supplements the first instead of replacing it, giving IT more context for follow-up.</p>
+
+<h2>Bounded ambiguity</h2>
+<p>The chatbot asks for clarification once when more than one support topic remains plausible. If the next attempt is still ambiguous, it stops asking for more detail and offers to submit the problem for IT review. This prevents an endless clarification loop.</p>
+
+<h2>Helpfulness feedback</h2>
+<p>After a support answer is found, the chatbot asks whether it was helpful. A Yes response completes the flow. A No response preserves the question that produced the answer and asks the user to describe the problem another way. If the revised description still cannot be resolved, the chatbot can offer IT-review submission while retaining the original question.</p>
 
 <h2>Design principle</h2>
 <p>The chatbot should prefer asking for clarification over confidently returning the wrong support topic.</p>
@@ -72,8 +87,8 @@ Offer to submit for IT review</pre>
 <tr><th>Input</th><th>Expected behavior</th></tr>
 <tr><td>Create an email signature in Outlook.</td><td><strong>FOUND</strong></td></tr>
 <tr><td>Forward a document from an Outlook email.</td><td><strong>FOUND</strong></td></tr>
-<tr><td>How do I add something to my Outlook email before I send it?</td><td><strong>AMBIGUOUS</strong> and request more information.</td></tr>
-<tr><td>Unsupported question</td><td>Ask for rephrase; if still unresolved, offer IT-review submission.</td></tr>
+<tr><td>How do I add something to my Outlook email before I send it?</td><td><strong>AMBIGUOUS</strong>; request clarification once, then offer IT review if it remains ambiguous.</td></tr>
+<tr><td>Unsupported question</td><td>Preserve the original question, ask for a rephrase, and offer IT-review submission if still unresolved.</td></tr>
 </table>
 
 </main>

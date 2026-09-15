@@ -15,10 +15,19 @@ const app = new App({
   dangerouslyAllowUnauthenticatedRequests: true,
 });
 
+type UnresolvedConversation = {
+  user: string;
+  originalQuestion: string;
+  rephrasedQuestion?: string;
+};
+
 const supportTopics = getSupportTopics();
 
 const missCounts = new Map<string, number>();
-const pendingSubmissions = new Map<string, string>();
+const ambiguityCounts = new Map<string, number>();
+const unresolvedConversations = new Map<string, UnresolvedConversation>();
+const pendingSubmissions = new Map<string, UnresolvedConversation>();
+const answeredQuestions = new Map<string, string>();
 const awaitingHelpful = new Set<string>();
 
 console.log(`Loaded ${supportTopics.length} support topic(s).`);
@@ -27,9 +36,34 @@ for (const topic of supportTopics) {
   console.log(`- ${topic.title}`);
 }
 
+function getLocalIsoTimestamp(): string {
+  const now = new Date();
+
+  const offsetMinutes = -now.getTimezoneOffset();
+  const sign = offsetMinutes >= 0 ? '+' : '-';
+
+  const absoluteOffset = Math.abs(offsetMinutes);
+  const offsetHours = Math.floor(absoluteOffset / 60);
+  const offsetMins = absoluteOffset % 60;
+
+  const pad = (value: number, length = 2) =>
+    String(value).padStart(length, '0');
+
+  return (
+    `${now.getFullYear()}-` +
+    `${pad(now.getMonth() + 1)}-` +
+    `${pad(now.getDate())}T` +
+    `${pad(now.getHours())}:` +
+    `${pad(now.getMinutes())}:` +
+    `${pad(now.getSeconds())}.` +
+    `${pad(now.getMilliseconds(), 3)}` +
+    `${sign}${pad(offsetHours)}:${pad(offsetMins)}`
+  );
+}
+
 async function saveUnresolvedProblem(
   conversationId: string,
-  problem: string,
+  problem: UnresolvedConversation,
 ): Promise<void> {
   const unresolvedDirectory = path.join(process.cwd(), 'data', 'unresolved');
 
@@ -42,8 +76,10 @@ async function saveUnresolvedProblem(
 
   const record = {
     conversationId,
-    problem,
-    submittedAt: new Date().toISOString(),
+    user: problem.user,
+    originalQuestion: problem.originalQuestion,
+    rephrasedQuestion: problem.rephrasedQuestion ?? '',
+    submittedAt: getLocalIsoTimestamp(),
   };
 
   await appendFile(unresolvedFile, `${JSON.stringify(record)}\n`, 'utf8');
@@ -54,6 +90,7 @@ app.on('message', async ({ send, activity }) => {
 
   const userText = activity.text ?? '';
   const conversationId = activity.conversation?.id ?? 'local';
+  const user = 'user';
   const normalizedResponse = userText.toLowerCase().trim();
 
   // Handle unresolved-problem submission response.
@@ -64,7 +101,9 @@ app.on('message', async ({ send, activity }) => {
       await saveUnresolvedProblem(conversationId, pendingProblem);
 
       pendingSubmissions.delete(conversationId);
+      unresolvedConversations.delete(conversationId);
       missCounts.delete(conversationId);
+      ambiguityCounts.delete(conversationId);
 
       await send('Your problem has been submitted for IT review.');
       return;
@@ -72,7 +111,9 @@ app.on('message', async ({ send, activity }) => {
 
     if (normalizedResponse === 'no' || normalizedResponse === 'n') {
       pendingSubmissions.delete(conversationId);
+      unresolvedConversations.delete(conversationId);
       missCounts.delete(conversationId);
+      ambiguityCounts.delete(conversationId);
 
       await send('No problem. Your request was not submitted.');
       return;
@@ -86,7 +127,9 @@ app.on('message', async ({ send, activity }) => {
   if (awaitingHelpful.has(conversationId)) {
     if (normalizedResponse === 'yes' || normalizedResponse === 'y') {
       awaitingHelpful.delete(conversationId);
+      answeredQuestions.delete(conversationId);
       missCounts.delete(conversationId);
+      ambiguityCounts.delete(conversationId);
 
       await send('Great. Let me know if you need help with anything else.');
       return;
@@ -94,6 +137,17 @@ app.on('message', async ({ send, activity }) => {
 
     if (normalizedResponse === 'no' || normalizedResponse === 'n') {
       awaitingHelpful.delete(conversationId);
+
+      const answeredQuestion = answeredQuestions.get(conversationId);
+
+      if (answeredQuestion) {
+        unresolvedConversations.set(conversationId, {
+          user,
+          originalQuestion: answeredQuestion,
+        });
+      }
+
+      answeredQuestions.delete(conversationId);
 
       // Treat the next unsuccessful rephrase as the second miss.
       missCounts.set(conversationId, 1);
@@ -118,11 +172,14 @@ app.on('message', async ({ send, activity }) => {
   // Solution found.
   if (result.status === 'FOUND' && result.topic) {
     missCounts.delete(conversationId);
+    ambiguityCounts.delete(conversationId);
+    unresolvedConversations.delete(conversationId);
 
     await send(
       `**${result.topic.title}**\n\n${result.topic.solution.join('\n')}`,
     );
 
+    answeredQuestions.set(conversationId, userText);
     awaitingHelpful.add(conversationId);
 
     await send('Was this helpful? Please answer yes or no.');
@@ -131,14 +188,42 @@ app.on('message', async ({ send, activity }) => {
 
   // More information is needed.
   if (result.status === 'AMBIGUOUS') {
-    const contextText = result.context
-      ? ` ${result.context.charAt(0) + result.context.slice(1).toLowerCase()}`
-      : '';
+    const currentAmbiguityCount = ambiguityCounts.get(conversationId) ?? 0;
 
-    await send(
-      `I found more than one possible${contextText} solution. Could you provide a little more detail about what you're trying to do?`,
-    );
-    return;
+    const newAmbiguityCount = currentAmbiguityCount + 1;
+
+    ambiguityCounts.set(conversationId, newAmbiguityCount);
+
+    if (newAmbiguityCount === 1) {
+      if (!unresolvedConversations.has(conversationId)) {
+        unresolvedConversations.set(conversationId, {
+          user,
+          originalQuestion: userText,
+        });
+      }
+
+      const contextText = result.context
+        ? ` ${result.context.charAt(0) + result.context.slice(1).toLowerCase()}`
+        : '';
+
+      await send(
+        `I found more than one possible${contextText} solution. Could you provide a little more detail about what you're trying to do?`,
+      );
+      return;
+    }
+
+    const unresolved = unresolvedConversations.get(conversationId);
+
+    if (unresolved) {
+      unresolved.rephrasedQuestion = userText;
+
+      pendingSubmissions.set(conversationId, unresolved);
+
+      await send(
+        "I still couldn't determine the correct solution. Would you like to submit this problem for IT review?",
+      );
+      return;
+    }
   }
 
   // No solution found.
@@ -148,16 +233,34 @@ app.on('message', async ({ send, activity }) => {
   missCounts.set(conversationId, newMissCount);
 
   if (newMissCount === 1) {
+    unresolvedConversations.set(conversationId, {
+      user,
+      originalQuestion: userText,
+    });
+
     await send(
       "Sorry, I couldn't find a solution for that. Please try saying it another way.",
     );
     return;
   }
 
-  pendingSubmissions.set(conversationId, userText);
+  const unresolved = unresolvedConversations.get(conversationId);
+
+  if (unresolved) {
+    unresolved.rephrasedQuestion = userText;
+
+    pendingSubmissions.set(conversationId, unresolved);
+
+    await send(
+      "I still couldn't find a solution. Would you like to submit this problem for IT review?",
+    );
+    return;
+  }
+
+  missCounts.delete(conversationId);
 
   await send(
-    "I still couldn't find a solution. Would you like to submit this problem for IT review?",
+    "Sorry, I couldn't keep track of the original problem. Please describe the problem again.",
   );
 });
 
