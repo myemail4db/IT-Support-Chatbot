@@ -51,11 +51,21 @@ cd &lt;project-directory&gt;</pre>
 <h2>3. Install project dependencies</h2>
 <p>Run the dependency-install command defined by the current project package configuration.</p>
 
-<h2>4. Start the chatbot locally</h2>
-<p>Start the chatbot so that its local messaging endpoint is available at the address configured by the project.</p>
+<h2>4. Start the chatbot locally in Terminal 1</h2>
+<p>Open the first terminal in the project root and start the chatbot application:</p>
+<pre>npm run dev</pre>
+<p><strong>Keep Terminal 1 running.</strong> The chatbot must remain available at <code>http://localhost:3978/api/messages</code> while you use the testing interface.</p>
 
-<h2>5. Start Microsoft 365 Agents Playground</h2>
+<h2>5. Start Microsoft 365 Agents Playground in Terminal 2</h2>
+<p>Open a second terminal in the project root. Do not stop Terminal 1. Start the local chatbot testing interface with:</p>
 <pre>agentsplayground -e http://localhost:3978/api/messages -c emulator</pre>
+<pre>Terminal 1                         Terminal 2
+Chatbot application               Microsoft 365 Agents Playground
+       │                                      │
+       └── http://localhost:3978/api/messages ┘
+                                              ↓
+                                   Chatbot testing page</pre>
+<div class="note"><strong>Important:</strong> Both terminals are used at the same time. Terminal 1 runs the chatbot code. Terminal 2 runs Microsoft 365 Agents Playground, which connects to the chatbot endpoint and opens the local testing experience.</div>
 
 <h2>6. Run smoke tests</h2>
 <ul>

@@ -55,10 +55,27 @@ Microsoft 365 Agents Playground
 Test matching, clarification,
 and unresolved handling</pre>
 
-<h2>Current local command</h2>
+<h2>Run local testing with two terminals</h2>
+<p>Local testing uses two terminals at the same time. The first runs the chatbot application. The second runs Microsoft 365 Agents Playground.</p>
+
+<h3>Terminal 1 - Run the chatbot</h3>
+<p>Open Terminal 1 in the project root and start the chatbot:</p>
+<pre>npm run dev</pre>
+<p><strong>Keep this terminal running.</strong> It provides the chatbot endpoint at <code>http://localhost:3978/api/messages</code>.</p>
+
+<h3>Terminal 2 - Run the chatbot testing page</h3>
+<p>Open Terminal 2 in the project root while Terminal 1 is still running:</p>
 <pre>agentsplayground -e http://localhost:3978/api/messages -c emulator</pre>
 
-<p>After starting the local chatbot and Playground, use the scenarios in <a href="sample-conversations.html">Sample Conversations</a> as smoke tests.</p>
+<pre>Terminal 1                         Terminal 2
+Chatbot application               Microsoft 365 Agents Playground
+       │                                      │
+       └── http://localhost:3978/api/messages ┘
+                                              ↓
+                                   Chatbot testing page</pre>
+
+<div class="note"><strong>Important:</strong> Do not stop Terminal 1 before starting Terminal 2. Agents Playground needs the running chatbot endpoint in order to send and receive test messages.</div>
+<p>After both are running, use the scenarios in <a href="sample-conversations.html">Sample Conversations</a> as smoke tests.</p>
 <h2>What this can validate</h2>
 <ul>
 <li>Known support-topic matching</li>
