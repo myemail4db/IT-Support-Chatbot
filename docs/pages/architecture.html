@@ -39,6 +39,40 @@
 <h1>Architecture</h1>
 <div class="summary"><strong>What you'll find here:</strong> The main processing components that turn a user's message into a support result.</div>
 
+<h2>Application structure</h2>
+<p>The MVP was refactored so the application entry point no longer owns the full conversation workflow. Each major responsibility now has a focused location, making the code easier to follow, test, and maintain without changing chatbot behavior.</p>
+<pre>index.ts
+   ↓
+messageHandler.ts
+   ├── supportMatcher.ts
+   ├── conversationState.ts
+   └── unresolvedProblemService.ts</pre>
+<table>
+<tr><th>Component</th><th>Responsibility</th></tr>
+<tr><td><code>src/index.ts</code></td><td>Creates the Teams application, loads and logs support topics, registers the message handler, and starts the server.</td></tr>
+<tr><td><code>src/handlers/messageHandler.ts</code></td><td>Controls the conversation flow, including solutions, clarification, helpfulness feedback, rephrasing, and submission prompts.</td></tr>
+<tr><td><code>src/matching/supportMatcher.ts</code></td><td>Detects semantic signals, scores approved support topics, ranks matches, and returns FOUND, AMBIGUOUS, or NOT_FOUND.</td></tr>
+<tr><td><code>src/state/conversationState.ts</code></td><td>Stores temporary per-conversation Maps and Sets used by the MVP.</td></tr>
+<tr><td><code>src/services/unresolvedProblemService.ts</code></td><td>Persists approved unresolved submissions to the local JSONL runtime file.</td></tr>
+<tr><td><code>src/models/UnresolvedConversation.ts</code></td><td>Defines the unresolved-conversation data shape shared by state and persistence code.</td></tr>
+</table>
+
+<h2>Current source structure</h2>
+<pre>src/
+├── handlers/
+│   └── messageHandler.ts
+├── matching/
+│   └── supportMatcher.ts
+├── models/
+│   ├── SemanticGroup.ts
+│   ├── SupportTopic.ts
+│   └── UnresolvedConversation.ts
+├── services/
+│   └── unresolvedProblemService.ts
+├── state/
+│   └── conversationState.ts
+└── index.ts</pre>
+
 <h2>Matching model</h2>
 <p>The current design separates understanding into four conceptual signals:</p>
 <table>

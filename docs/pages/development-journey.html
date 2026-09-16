@@ -45,6 +45,21 @@
 <h2>Why this matters</h2>
 <p>Lack of enterprise access does not have to block development of the core chatbot. Teams deployment becomes a later integration stage rather than a prerequisite for learning, coding, or validating the MVP.</p>
 
+<h2>MVP refactoring</h2>
+<p>After the core chatbot flows were working, the source was refactored to separate application startup, conversation handling, matching, conversation state, and unresolved-problem persistence. The refactor preserved the existing behavior while making the project easier to support and navigate.</p>
+<pre>Large application entry point
+      ↓
+Extract shared models
+      ↓
+Extract conversation state
+      ↓
+Extract unresolved persistence
+      ↓
+Extract message handler
+      ↓
+Small application bootstrap</pre>
+<p>The known-solution and unresolved-submission flows were run again after the final handler extraction to confirm that the refactored application still worked.</p>
+
 <h2>Progression</h2>
 <pre>Local development
       ↓

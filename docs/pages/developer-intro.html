@@ -42,7 +42,9 @@
 <h2>Core processing flow</h2>
 <pre>Microsoft Teams-style message
         ↓
-Conversation processing
+messageHandler.ts
+        ↓
+supportMatcher.ts
         ↓
 Intent matching
 Object matching
@@ -54,6 +56,7 @@ Score all support topics
 Best result
         ↓
 FOUND / AMBIGUOUS / UNRESOLVED</pre>
+<p>The application entry point in <code>index.ts</code> is intentionally small. Conversation flow is handled in <code>messageHandler.ts</code>, temporary conversation state is kept in <code>conversationState.ts</code>, matching stays in <code>supportMatcher.ts</code>, and unresolved-problem persistence is isolated in <code>unresolvedProblemService.ts</code>.</p>
 
 <h2>Current support data</h2>
 <p>Approved support topics are stored in <code>data/support/support-data.json</code>. Semantic vocabulary is stored separately under <code>data/semantics/</code>. This keeps approved answers separate from the language used to understand user questions.</p>

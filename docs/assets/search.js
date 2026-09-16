@@ -2,7 +2,7 @@ const pages = [
 ["Home","index.html","overview user developer start support data maintenance ai prompt"],
 ["User Introduction","pages/user-intro.html","user introduction use chatbot help voice support"],
 ["Developer Introduction","pages/developer-intro.html","developer architecture matching scoring setup support data maintenance"],
-["Architecture","pages/architecture.html","architecture intent object context state scoring unresolved conversationId identity timestamp"],
+["Architecture","pages/architecture.html","architecture index messageHandler supportMatcher conversationState unresolvedProblemService structure intent object context state scoring unresolved conversationId identity timestamp"],
 ["Conversation Flow","pages/conversation-flow.html","conversation clarification ambiguity first miss second miss unresolved helpful original rephrased question"],
 ["Sample Conversations","pages/sample-conversations.html","examples screenshots known ambiguous unresolved clarification helpful repeated ambiguity"],
 ["Getting Started","pages/getting-started.html","github clone download install run agents playground local add support topic maintenance"],
@@ -10,7 +10,7 @@ const pages = [
 ["Managing Support Data","pages/managing-support-data.html","support data add new topic problem section knowledge maintenance non developer semantics json approved procedure"],
 ["AI Support Topic Prompt","pages/ai-support-topic-prompt.html","ai prompt create support data add topic semantics integration files validation test questions non developer"],
 ["Security","pages/security.html","security input validation secrets logging local production"],
-["Development Journey","pages/development-journey.html","without company access lessons learned local"],
+["Development Journey","pages/development-journey.html","without company access lessons learned local refactor message handler state persistence bootstrap"],
 ["Future Options","pages/future-options.html","future pubsub human handoff ticketing analytics"],
 ["Pub/Sub Examples","pages/pubsub.html","pubsub application monitoring admin approval request software"]
 ];
